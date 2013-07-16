@@ -1,0 +1,47 @@
+<%# IMAGE-MATRIX %>
+
+<% sub_item_rel = {} %>
+<% question.answer_items.each do |answer_item| %>
+  <% answer_item.sub_items.order_by_created_at.each_with_index do |sub_item, sub_item_index| %>
+    <% sub_item_rel.["#{sub_item.id}"] = sub_item_index } %>
+  <% end %>
+<% end %>
+
+<Row>    
+  <% question.answer_items.each do |answer_item| %>
+    <% answer_item.sub_items.order_by_created_at.each do |sub_item| %>
+      <Cell ss:StyleID="MainTitle"><Data ss:Type="String"><%= sub_item.creative.image %></Data></Cell>
+    <% end %>
+  <% end %>
+</Row>
+
+<Row>
+  <% sub_item_rel do |key, value| %>
+    <Cell><Data ss:Type="String"><%= value %></Data></Cell>
+  <% end %>
+</Row>
+<Row>
+  <Cell/>
+</Row>
+
+<Row>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">PanelID</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">AnswerTime</Data></Cell>
+  <% question.answer_items.order_by_created_at.each do |answer_item| %>
+    <Cell ss:StyleID="MainTitle"><Data ss:Type="String"><%= answer_item.creative.image %></Data></Cell>
+  <% end %>
+</Row>
+
+<% @_panels.each do |panel| %>
+  <% panel.answers.where('question_id = ?', question.id).each do |answer| %>
+    <Row>
+      <Cell><Data ss:Type="Number"><%= answer.panel_id %></Data></Cell>
+      <Cell><Data ss:Type="Number"><%= answer.duration %></Data></Cell>    
+      <% answer.answer_items.order_by_created_at.each do |answer_item| %>
+        <% answer_item.sub_items.each do |sub_item| %>
+          <Cell><Data ss:Type="Number"><%= sub_item_rel.fetch("#{sub_item.id}") %></Data></Cell>        
+        <% end %>
+      <% end %>
+    </Row>
+  <% end %>
+<% end %>

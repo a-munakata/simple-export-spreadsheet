@@ -1,0 +1,23 @@
+<%# AREA-MAPPING %>
+
+<Row>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">PanelID</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">AnswerTime</Data></Cell>  
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">x</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">y</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">width</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">height</Data></Cell>  
+</Row>
+
+<% @_panels.each do |panel| %>
+  <% panel.answers.where('question_id = ?', question.id).each do |answer| %>
+    <Row>
+      <Cell><Data ss:Type="Number"><%= answer.panel_id %></Data></Cell>
+      <Cell><Data ss:Type="Number"><%= answer.duration %></Data></Cell>
+      <Cell><Data ss:Type="Number"><%= answer.x %></Data></Cell>
+      <Cell><Data ss:Type="Number"><%= answer.y %></Data></Cell>
+      <Cell><Data ss:Type="Number"><%= answer.width %></Data></Cell>
+      <Cell><Data ss:Type="Number"><%= answer.height %></Data></Cell>
+    </Row>
+  <% end %>
+<% end %>

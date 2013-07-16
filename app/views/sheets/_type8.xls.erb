@@ -1,0 +1,38 @@
+<%# MULTI-SLIDEBAR %>
+
+<% sub_item_lists = [] %>
+<% sub_item_labels = [] %>
+
+<% question.answer_items.each do |answer_item| %>
+  <% answer_item.sub_items.order_by_created_at.attachable_id.each do |sub_item_id| %>    
+    <% sub_item.where('attachable_id = ?', sub_item_id).each do |filtered_item| %>              
+      <% sub_item_labels << sub_item.sentence %>
+    <% end %>
+    <% sub_item_lists << sub_item_labels %>
+  <% end %>
+<% end %>
+
+<!-- 画像名が入る。 -->
+<Row>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">PanelID</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">AnswerTime</Data></Cell>
+  <% sub_item_lists.each do |id, labels|  %>
+    <Cell ss:StyleID="MainTitle"><Data ss:Type="String"><%= labels.join(" => ") %></Data></Cell>
+  <% end %>
+</Row>
+
+<% @_panels.each do |panel| %>
+  <% panel.answers.where('question_id = ?', question.id).each do |answer| %>
+    <% id = answer.panel_id %>
+    <% duration = answer.duration %>
+  <% end %>
+
+  <Row>
+    <Cell><Data ss:Type="String"><%= id %></Data></Cell>
+    <Cell><Data ss:Type="String"><%= duration %></Data></Cell>
+    <% panel.answers.order_by_created_at.where('question_id = ?', question.id).each do |answer| %>
+      <Cell><Data ss:Type="String"><%= answer.value %></Data></Cell>
+    <% end %>
+
+  </Row>
+<% end %>
