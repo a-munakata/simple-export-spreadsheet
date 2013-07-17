@@ -1,0 +1,14 @@
+<%# CRITZ-POINT %>
+<Row>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">対象画像</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">X</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">Y</Data></Cell>  
+</Row>
+
+<% question.answer_items.order("id DESC").each do |answer_item| %>
+  <Row>
+    <Cell><Data ss:Type="String"><%= answer_item.creative.image %></Data></Cell>
+    <Cell><Data ss:Type="Number"><%# Xの値 %></Data></Cell>
+    <Cell><Data ss:Type="Number"><%# Yの値 %></Data></Cell>
+  </Row>
+<% end %>

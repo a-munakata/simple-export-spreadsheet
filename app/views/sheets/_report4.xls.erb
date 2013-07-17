@@ -1,0 +1,19 @@
+<%# SELECT-IMAGE %>
+<Row>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">項目</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">選択数</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">割合</Data></Cell>  
+</Row>
+
+<% question.answer_items.order("id DESC").each do |answer_item| %>
+  <Row>
+    <Cell><Data ss:Type="String"><%= answer_item.creative.image %></Data></Cell>
+    <Cell><Data ss:Type="Number"><%# answer_itemを選択した数 %></Data></Cell>
+    <Cell><Data ss:Type="Number"><%# それぞれの割合 %></Data></Cell>
+  </Row>
+<% end %>
+<Row>
+  <Cell><Data ss:Type="String">合計</Data></Cell>
+  <Cell><Data ss:Type="Number"><%# 選択数の合計 %></Data></Cell>
+  <Cell/>
+</Row>

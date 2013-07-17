@@ -1,6 +1,6 @@
 <%# SLIDEBAR %>
-
-<!--  task: scope :order_by_created_at, order("created_at DESC") -->
+<!-- task: scope :order_by_created_at, order("created_at DESC") -->
+<!-- task: リファクタリング対象 -->
 <% sub_item_lists = [] %>
 <% sub_item_labels = [] %>
 
@@ -14,7 +14,7 @@
 <Row>
   <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">PanelID</Data></Cell>
   <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">AnswerTime</Data></Cell>
-  <% sub_item_lists.each do |sub_item_labels| %>
+  <% sub_item_lists.each do |labels| %>
     <Cell ss:StyleID="MainTitle"><Data ss:Type="String"><%= labels.join(" => ") %></Data></Cell>
   <% end %>
 </Row>

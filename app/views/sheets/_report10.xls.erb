@@ -1,0 +1,34 @@
+<%# TEXT-MATRIX %>
+<% sub_item_rel = {} %>
+<% question.answer_items.each do |answer_item| %>
+  <% answer_item.sub_items.order_by_created_at.each_with_index do |sub_item, sub_item_index| %>
+    <% sub_item_rel.["#{sub_item.id}"] = sub_item_index } %>
+  <% end %>
+<% end %>
+
+<Row>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">項目</Data></Cell>        
+  <% question.answer_items.each do |answer_item| %>
+    <% answer_item.sub_items.order_by_created_at.each do |sub_item| %>    
+      <Cell ss:StyleID="MainTitle"><Data ss:Type="String"><%= sub_item.sentence %></Data></Cell>        
+    <% end %>
+  <% end %>  
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">合計</Data></Cell>        
+</Row>
+
+<% sub_item_rel do |key, value| %>
+  <Row>
+    <Cell><Data ss:Type="String"><%= value %></Data></Cell>
+    <% question.answer_items.each do |answer_item| %>
+      <% answer_item.sub_items.order_by_created_at.each do |sub_item| %>    
+        <Cell><Data ss:Type="Number"><%# 値 %></Data></Cell>        
+      <% end %>
+    <% end %>  
+    <Cell><Data ss:Type="Number"><%# 合計値 %></Data></Cell>
+  </Row>
+<% end %>
+
+<Row>
+  <Cell ss:MergeAcross="<%# 質問数の数だけ %>"><Data ss:Type="String"><%= value %></Data></Cell>
+  <Cell><Data ss:Type="Number"><%# 合計値 %></Data></Cell>
+</Row>

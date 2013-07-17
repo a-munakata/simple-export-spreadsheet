@@ -1,0 +1,29 @@
+<%# SLIDEBAR %>
+<Row>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">対象画像</Data></Cell>
+  <Cell ss:StyleID="MainTitle"><Data ss:Type="String">平均値</Data></Cell>
+</Row>
+
+<!-- task: リファクタリング対象 -->
+<% sub_item_lists = [] %>
+<% sub_item_labels = [] %>
+
+<% question.answer_items.each do |answer_item| %>
+  <% answer_item.sub_items.order_by_created_at.each do |sub_item| %>  
+    <% sub_item_labels << sub_item.sentence if sub_item.attachable_id == answer_item.id %>    
+  <% end %>
+  <% sub_item_lists << sub_item_labels %>
+<% end %>
+
+<% sub_item_lists.each do |labels| %>
+  <Row>
+    <Cell ss:StyleID="MainTitle"><Data ss:Type="String"><%= labels.join(" => ") %></Data></Cell>
+    <Cell><Data ss:Type="Number"><%# 平均値 %></Data></Cell>
+  </Row>
+<% end %>
+
+<Row>
+  <Cell><Data ss:Type="String">平均値</Data></Cell>
+  <Cell><Data ss:Type="Number"><%# 平均値 %></Data></Cell>
+</Row>
+

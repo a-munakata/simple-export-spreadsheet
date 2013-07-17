@@ -1,5 +1,4 @@
-<%# TEXT-MATRIX %>
-
+<%# IMAGE-MATRIX %>
 <% sub_item_rel = {} %>
 <% question.answer_items.each do |answer_item| %>
   <% answer_item.sub_items.order_by_created_at.each_with_index do |sub_item, sub_item_index| %>
@@ -7,12 +6,12 @@
   <% end %>
 <% end %>
 
-<Row>
+<Row>    
   <% question.answer_items.each do |answer_item| %>
     <% answer_item.sub_items.order_by_created_at.each do |sub_item| %>
-      <Cell ss:StyleID="MainTitle"><Data ss:Type="String"><%= sub_item.sentence %></Data></Cell>
+      <Cell ss:StyleID="MainTitle"><Data ss:Type="String"><%= sub_item.creative.image %></Data></Cell>
     <% end %>
-  <% end %>  
+  <% end %>
 </Row>
 
 <Row>
@@ -28,7 +27,7 @@
   <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">PanelID</Data></Cell>
   <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">AnswerTime</Data></Cell>
   <% question.answer_items.order_by_created_at.each do |answer_item| %>
-    <Cell ss:StyleID="MainTitle"><Data ss:Type="String"><%= answer_item.sentence %></Data></Cell>
+    <Cell ss:StyleID="MainTitle"><Data ss:Type="String"><%= answer_item.creative.image %></Data></Cell>
   <% end %>
 </Row>
 

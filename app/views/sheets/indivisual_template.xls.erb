@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Styles>
+    <Style ss:ID="Default" ss:Name="Normal">
+     <Alignment ss:Vertical="Bottom"/>
+     <Font ss:FontName="ＭＳ Ｐゴシック" x:CharSet="128" x:Family="Swiss" ss:Size="11" ss:Color="#000000"/>
+     <Borders>
+      <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#969696"/>
+      <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#969696"/>
+      <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#969696"/>
+      <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#969696"/>
+     </Borders>
+    </Style>
+    <Style ss:ID="QuestionTitle">
+     <Alignment ss:Horizontal="Left" ss:Vertical="Center"/>
+     <Font ss:FontName="ＭＳ Ｐゴシック" x:CharSet="128" ss:Size="11" ss:Color="#FFFFFF"/>
+     <Interior ss:Color="#64A2B2" ss:Pattern="Solid"/>
+    </Style>
+    <Style ss:ID="MainTitle">
+     <Font ss:FontName="ＭＳ Ｐゴシック" x:CharSet="128" ss:Size="11" ss:Color="#000000"/>
+     <Interior ss:Color="#CCE2E9" ss:Pattern="Solid"/>
+    </Style>    
+    <Style ss:ID="DateFormated">
+     <Borders/>
+     <Font ss:FontName="ＭＳ Ｐゴシック" x:CharSet="128" ss:Size="11" ss:Color="#000000"/>
+     <NumberFormat ss:Format="General Date"/>
+    </Style>
+    <Style ss:ID="ShortDate">
+     <Borders/>
+     <Font ss:FontName="ＭＳ Ｐゴシック" x:CharSet="128" ss:Size="11" ss:Color="#000000"/>
+     <NumberFormat ss:Format="Short Date"/>
+    </Style>    
+    <Style ss:ID="BorderDouble">
+     <Borders>
+      <Border ss:Position="Bottom" ss:LineStyle="Double" ss:Weight="3"/>      
+     </Borders>     
+    </Style>
+  </Styles>
+  
+  <% @_survey.questionnaire.questions.ordered.each_with_index do |question, index| %>  
+  <% ["data, report"].each do |type| %>
+
+  <Worksheet ss:Name="Q<%= index+1 %>.<%= question.screen_name_type %>">
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="21" x:FullColumns="1" x:FullRows="1" ss:DefaultColumnWidth="77" ss:DefaultRowHeight="17">
+    <Row ss:StyleID="QuestionTitle" ss:AutoFitHeight="0" ss:Height="26">
+      <Cell><Data ss:Type="String"><%= index+1 %>.<%= question.sentence %> - <%= question.answer_type %></Data></Cell>
+    </Row>
+    <Row ss:Height="18">
+      <Cell ss:StyleID="MainTitle"><Data ss:Type="Number">PanelID</Data></Cell>    
+    </Row>
+    <Row>
+      <Cell/>
+    </Row>
+    <Row>
+      <Cell ss:StyleID="MainTitle"><Data ss:Type="String">ステップ</Data></Cell>
+      <Cell ss:MergeAcross="1"><Data ss:Type="Number"><%= index+1 %></Data></Cell>
+    </Row>
+    <Row>
+      <Cell ss:StyleID="MainTitle"><Data ss:Type="String">回答タイプ</Data></Cell>
+      <Cell ss:MergeAcross="1"><Data ss:Type="String"><%= question.screen_name_type %></Data></Cell>
+    </Row>
+    <Row>
+      <Cell ss:StyleID="MainTitle"><Data ss:Type="String">提示画像</Data></Cell>
+      <Cell ss:MergeAcross="1"><Data ss:Type="Number"><%= if answer_item.creative.present? ? answer_item.creative.image.url : "-" %></Data></Cell>
+    </Row>
+    <Row>
+      <Cell ss:StyleID="MainTitle"><Data ss:Type="String">回答人数</Data></Cell>
+      <!-- task: panel.idを数えても重複した物が含まれてしまう。 -->
+      <Cell ss:MergeAcross="1"><Data ss:Type="Number"><%= panel.answers.where('question_id = ?', question.id).panel_id.count %></Data></Cell>
+    </Row>
+    <Row>
+      <Cell ss:StyleID="MainTitle"><Data ss:Type="String">平均回答時間</Data></Cell>
+      <!-- task: アプリケーションから持ってくる  -->
+      <Cell ss:MergeAcross="1"><Data ss:Type="DateTime"><%= "平均回答時間" %></Data></Cell>
+    </Row>
+    <Row>
+      <Cell ss:MergeAcross="1"/>
+    </Row>
+    <Row>
+      <Cell ss:MergeAcross="1"/>
+    </Row>
+        
+    <%= render :partial => "#{type}#{question.answer_type}" %>    
+
+    </Table>
+  </Worksheet> 
+  <% end %>
+  <% end %>
+
+</Workbook>
